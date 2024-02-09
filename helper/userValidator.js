@@ -1,5 +1,14 @@
 const {check}=require("express-validator");
 exports.register=[
     check("name","Name is required").not().isEmpty(),
-    check("email","Email need to be valid required").isEmail().normalizeEmail(),
+    check("email","Email need to be valid required").isEmail().normalizeEmail({gmail_remove_dots:true}),
+    check("password","Password must be atleast 6 character long and have minimun 1 uppercase and 1 lowecase 1 number").isStrongPassword({
+        minLength:6,
+        minNumbers:1,
+        minLowercase:1,
+        minUppercase:1
+    }),
+    check("image").custom((value,{req})=>{
+        if(req.file.mime){}
+    })
 ]

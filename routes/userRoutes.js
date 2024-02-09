@@ -6,6 +6,7 @@ const userController=require("../controllers/userControllers.js")
 user_router.use(express.json())
 user_router.use(express.urlencoded({extended:true}))
 user_router.use(express.static('public'))
+const userValidation=require('../helper/userValidator.js')
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
        cb(null,path.join(__dirname,'../public/images'),(error,success)=>{
@@ -19,6 +20,6 @@ const storage=multer.diskStorage({
     }
 })
 const upload=multer({storage:storage});
-user_router.post('/register',upload.single("image"),userController.register)
+user_router.post('/register',upload.single("image"),userValidation.register,userController.register)
 
 module.exports=user_router;
