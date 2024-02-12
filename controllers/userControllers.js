@@ -15,7 +15,7 @@ try {
             name:req.body.name,
             email:req.body.email,
             password:hash,
-            image:req.body.image
+            image:req.file.path
            })
        await data.save()
         res.status(200).send({success:true,data:data});

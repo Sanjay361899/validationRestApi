@@ -15,3 +15,12 @@ exports.register=[
         else{return false;}
     }).withMessage("please upload an image which is jpeg,jpg and png.")
 ]
+exports.document=[
+    check("document").custom((value,{req})=>{
+        if(file.mimetype=="application/vnd.ms-excel"||file.mimetype=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+            return true;
+        }else{
+            return false;
+        }
+    }).withMessage("please upload an application which is xlsx and ms excel format.")
+]
