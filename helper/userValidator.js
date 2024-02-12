@@ -9,6 +9,9 @@ exports.register=[
         minUppercase:1
     }),
     check("image").custom((value,{req})=>{
-        if(req.file.mime){}
-    })
+        if(req.file.mimetype=="image/jpeg" || req.file.mimetype=="image/png" ||req.file.mimetype=="image/jpg"){
+            return true;
+        }
+        else{return false;}
+    }).withMessage("please upload an image which is jpeg,jpg and png.")
 ]

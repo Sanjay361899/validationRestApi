@@ -9,17 +9,22 @@ user_router.use(express.static('public'))
 const userValidation=require('../helper/userValidator.js')
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-       cb(null,path.join(__dirname,'../public/images'),(error,success)=>{
+       cb(null,path.join(__dirname,'../public/image'),(error,success)=>{
         if(error) throw error;
        })
     },
     filename:(req,file,cb)=>{
-        cb(null,Date.now()+file.originalname,(error,success)=>{
+        cb(null,Date.now()+"_"+file.originalname,(error,success)=>{
             if(error) throw error;
         });
     }
 })
-const upload=multer({storage:storage});
+const fileFilter=(req,file,cb)=>{
+    console.log(file.mimetype,"file.mimetype");
+    (file.mimetype=="image/jpeg"||file.mimetype=="image/png"||file.mimetype=="image/jpg")?  cb(null,true): cb(null,false)
+
+}
+const upload=multer({storage:storage,fileFilter:fileFilter});
 user_router.post('/register',upload.single("image"),userValidation.register,userController.register)
 
 module.exports=user_router;
