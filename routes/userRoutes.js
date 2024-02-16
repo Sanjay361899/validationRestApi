@@ -26,5 +26,5 @@ const fileFilter=(req,file,cb)=>{
 }
 const upload=multer({storage:storage,fileFilter:fileFilter});
 user_router.post('/register',upload.single("image"),userValidation.register,userController.register)
-
+user_router.post('/send-email',userValidation.sendMail,userController.sendMail)
 module.exports=user_router;

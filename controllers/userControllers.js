@@ -1,7 +1,48 @@
 const User=require("../models/userModel.js")
 const bcrypt=require("bcryptjs")
+const nodeMailer=require("nodemailer")
 const {validationResult }=require("express-validator")
 const usermultiModel = require("../models/usermultiModel.js")
+
+const sendMailer=(email,attachmentpath,attachmentname)=>{
+    try {
+        console.log("hi");
+        const transporter=nodeMailer.createTransport({
+            host:process.env.SMTP_HOST,
+            port:process.env.SMTP_PORT,
+            secure:false,
+            requireTLS:true,
+            auth:{
+                user:process.env.SMTP_HOST,
+                pass:process.env.SMTP_PASSWORD
+            }
+        });
+        const mailOptions={
+            from:process.env.SMTP_HOST,
+            to:email,
+            subject:"For test mail with the options.",
+            html:`<p>here is something</p>`,
+            attachments: [
+                {
+                  filename: attachmentname,
+                  path: attachmentpath
+                }
+              ]
+        }
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+              return false
+            } else {
+              console.log('Email sent: ' + info.response);
+              return true;
+            }
+          });
+        
+    } catch (error) {
+        
+    }
+}
 const register=async (req,res)=>{
 try {
     const errordata=validationResult(req)
@@ -57,7 +98,22 @@ const registermulti=async (req,res)=>{
         res.status(400).send({success:false,error:error.message})
     }
     }
+    const sendMail=async(req,res)=>{
+     try {
+    console.log(req.body.email,"filename");
+    //    const send=  sendMailer(req.body,req.file.path,req.file.originalname)
+       console.log("send");
+    //    if(send){
+    //     res.status(200).status({message:"mail is successfully sent"})
+    //    }else{
+    //     res.status(200).status({message:"mail is not sended"})
+    //    }
+    } catch (error) {
+    res.status(400).send({success:false,message:error.message})
+   }
+    }
 module.exports={
     register,
-    registermulti
+    registermulti,
+    sendMail
 }

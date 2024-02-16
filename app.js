@@ -3,6 +3,7 @@ const mongoose=require('mongoose');
 const app=express();
 const user_router=require("./routes/userRoutes.js");
 const port=6666;
+require("dotenv/config.js")
 mongoose.connect("mongodb://127.0.0.1:27017/validationAll")
 app.use('/',user_router);
 const document_router=require("./routes/documentRoutes.js")

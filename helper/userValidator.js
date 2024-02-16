@@ -48,3 +48,6 @@ exports.registermulti=[
         }
     }).withMessage("please upload an application which is xlsx and ms excel format.")
 ]
+exports.sendMail=[
+    check("email","Email is required to be valid").isEmail().normalizeEmail({gmail_remove_dots:true}),
+]
